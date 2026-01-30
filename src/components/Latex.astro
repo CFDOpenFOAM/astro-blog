@@ -1,0 +1,29 @@
+
+---
+// src/components/Latex.astro
+import katex from 'katex';
+
+interface Props {
+	formula: string;   // 公式内容
+	block?: boolean;   // 是否独占一行 (block) 还是行内 (inline)
+}
+
+const { formula, block = false } = Astro.props;
+
+// 使用 katex 将字符串渲染成 HTML
+const html = katex.renderToString(formula, {
+	throwOnError: false,
+	displayMode: block // true 为块级公式，false 为行内公式
+});
+---
+
+<span set:html={html} class={block ? "katex-block" : ""} />
+
+<style>
+  /* 稍微调整一下块级公式的间距 */
+  .katex-block {
+    display: block;
+    margin: 1em 0;
+    text-align: center;
+  }
+</style>
